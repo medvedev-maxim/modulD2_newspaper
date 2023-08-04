@@ -1,0 +1,12 @@
+{% extends 'layout/default.html' %}
+{% load custom_filters %} 
+
+{% block title %}
+{{ post.title }}
+{% endblock title %}
+ 
+{% block content %}
+    <h1>{{ post.title|censor }}</h1>
+    <p><em>{{ post.dateCreation|date:'d-m-Y h:m' }}</em></p>
+    <p>{{ post.text|censor }}</p>
+{% endblock content %}

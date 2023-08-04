@@ -52,6 +52,9 @@ class Post(models.Model):
 
     def preview(self):
         return self.text[0:123] + '...'
+    
+    def __str__(self):
+       return f'Новость #{self.pk} - {self.title}'
 
 
 class PostCategory(models.Model):

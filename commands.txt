@@ -1,3 +1,5 @@
+Команды для заполнения базы через django shell 
+
 from news.models import *
 u1 = User.objects.create(username='Max', first_name='Maxim')
 a1 = Author.objects.create(authorUser=u1)
