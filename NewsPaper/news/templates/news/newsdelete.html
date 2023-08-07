@@ -1,21 +1,26 @@
 {% extends 'layout/default.html' %}
-{% load custom_filters %} 
 
 {% block title %}
-{{ post.title }}
+News create
 {% endblock title %}
- 
+
 {% block content %}
-<h1>Содержание новости</h1>
+<h1>Удалить эту новость?</h1>
 <br>
 <div class="card">
     <div class="card-header">
         {{ post.author }}
     </div>
     <div class="card-body">
-        <h3 class="card-title">{{ post.title|censor }}</h3>
+        <h3 class="card-title">{{ post.title }}</h3>
         <p class="card-text"><small class="text-body-secondary">{{ post.dateCreation|date:'d-m-Y h:m' }}</small></p>
-        <p class="card-text">{{ post.text|censor }}</p>
+        <p class="card-text">{{ post.text }}</p>
     </div>
 </div>
+<br>
+<form method="POST">
+  {% csrf_token %}
+  <input class="btn btn-success" type="submit" value="Delete">
+</form>
+
 {% endblock content %}

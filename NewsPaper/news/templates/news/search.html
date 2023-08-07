@@ -6,14 +6,23 @@ News
 {% endblock title %}
  
 {% block content %}
-    <h1>Все новости</h1>
+    <h1>Поиск новостей</h1>
+    <!-- <p><em>(общее кол-во новостей: {{posts|length}})</em></p> -->
     <div class="btn-group">
-        <a href="{% url 'news:posts' %}" class="btn btn-primary active">Все новости</a>
-        <a href="{% url 'news:post_search' %}" class="btn btn-primary">Поиск</a>
+        <a href="{% url 'news:posts' %}" class="btn btn-primary">Все новости</a>
+        <a href="{% url 'news:post_search' %}" class="btn btn-primary active">Поиск</a>
         <a href="{% url 'news:post_create' %}" class="btn btn-primary">Создать новость</a>
     </div>
-    <!-- <p><em>(общее кол-во новостей: {{posts|length}})</em></p> -->
-    {% if posts %}
+    <br>
+    <br>
+    {% if posts %}    
+        <!-- Перед таблицей добавим форму для поиска -->
+        <form method="GET">
+            {{ filter.form }}
+            <!-- Форму от фильтров за нас сделает Django. А вот кнопку, увы, придётся делать самим -->
+            <input class="btn btn-primary" type="submit" value="Найти">
+        </form>
+        
         <table  class="table table-hover">
             <tr>
                 <th scope="col">
@@ -28,11 +37,8 @@ News
                 <th scope="col">
                     Автор
                 </th>
-                <th scope="col">
-                    Действия
-                </th>
             </tr>
-            {% for p in posts %}
+            {% for p in filter.qs %}
             <tr>
                 <td>
                     <a href="{% url 'news:post_detail' p.id %}">
@@ -54,20 +60,12 @@ News
                 <td>
                     {{p.author.authorUser}}
                 </td>
-                <td>
-                    <a href="{% url 'news:post_update' p.id %}">
-                        Update
-                    </a>
-                    <a href="{% url 'news:post_delete' p.id %}">
-                        Delete
-                    </a>   
-                </td>
             </tr>
             {% endfor %}
         </table>
        
         <!-- Заменили код пагинатора на подключение шаблона с этим кодом -->
-        {% include 'news/parts/paginator.html' %}
+        {% comment %}{% include 'news/parts/paginator.html' %}{% endcomment %}
     
         {% else %}
         <h3>Нет новостей</h3>
