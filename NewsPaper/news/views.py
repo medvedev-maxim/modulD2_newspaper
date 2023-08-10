@@ -5,6 +5,7 @@ from django.core.paginator import Paginator
 from .filters import PostFilter
 from .forms import PostForm
 from django.urls import reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
 class PostsList(ListView):
     model = Post
@@ -35,20 +36,23 @@ class PostDetail(DetailView):
     context_object_name='post'
 
 # дженерик для создания объекта. Надо указать только имя шаблона и класс формы, который мы написали в прошлом юните. Остальное он сделает за вас
-class PostCreateView(CreateView):
-   template_name = 'news/newscreate.html'
-   form_class = PostForm
+class PostCreateView(PermissionRequiredMixin, CreateView):
+    permission_required = ('news.add_post')
+    template_name = 'news/newscreate.html'
+    form_class = PostForm
 
-class PostUpdateView(UpdateView):
-   template_name = 'news/newscreate.html'
-   form_class = PostForm
-   # метод get_object мы используем вместо queryset, чтобы получить информацию об объекте который мы собираемся редактировать
-   def get_object(self, **kwargs):
-       id = self.kwargs.get('pk')
-       return Post.objects.get(pk=id)
+class PostUpdateView(PermissionRequiredMixin, UpdateView):
+    permission_required = ('news.change_post')
+    template_name = 'news/newscreate.html'
+    form_class = PostForm
+    # метод get_object мы используем вместо queryset, чтобы получить информацию об объекте который мы собираемся редактировать
+    def get_object(self, **kwargs):
+        id = self.kwargs.get('pk')
+        return Post.objects.get(pk=id)
    
 # дженерик для удаления товара
-class PostDeleteView(DeleteView):
-   template_name = 'news/newsdelete.html'
-   queryset = Post.objects.all()
-   success_url = reverse_lazy('news:posts') # не забываем импортировать функцию reverse_lazy из пакета django.urls
+class PostDeleteView(PermissionRequiredMixin, DeleteView):
+    permission_required = ('news.delete_post')
+    template_name = 'news/newsdelete.html'
+    queryset = Post.objects.all()
+    success_url = reverse_lazy('news:posts') # не забываем импортировать функцию reverse_lazy из пакета django.urls

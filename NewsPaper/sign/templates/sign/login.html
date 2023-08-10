@@ -1,0 +1,22 @@
+{% extends "layout/default.html" %}
+
+{% block content %}
+
+<h2>
+ Войти в систему
+</h2>
+
+<form method="post" action="{% url 'sign:login' %}" class="py-3">
+
+ {% csrf_token %}
+
+ {{ form.as_p }}
+
+ <button type="submit" class="btn btn-primary">
+   Вход
+ </button>
+</form>
+
+<a class="btn btn-secondary" href="/sign/signup/"> Регистрация </a>
+
+{% endblock content %}
