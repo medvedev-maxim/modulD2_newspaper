@@ -7,10 +7,15 @@ News
  
 {% block content %}
     <h1>Все новости</h1>
-    <div class="btn-group">
+    <!-- <div class="btn-group">
         <a href="{% url 'news:posts' %}" class="btn btn-primary active">Все новости</a>
         <a href="{% url 'news:post_search' %}" class="btn btn-primary">Поиск</a>
         <a href="{% url 'news:post_create' %}" class="btn btn-primary">Создать новость</a>
+    </div> -->
+    <div>
+        {% for c in categorys %}
+            {{c}} 
+        {% endfor %}
     </div>
     <!-- <p><em>(общее кол-во новостей: {{posts|length}})</em></p> -->
     {% if posts %}
@@ -27,6 +32,9 @@ News
                 </th>
                 <th scope="col">
                     Автор
+                </th>
+                <th scope="col">
+                    Категория
                 </th>
                 <th scope="col">
                     Действия
@@ -53,6 +61,11 @@ News
                 </td>
                 <td>
                     {{p.author.authorUser}}
+                </td>
+                <td>
+                    {% for category in p.postCategory.all %}
+                    <a href="{% url 'news:category' category.id %}">{{category}}</a> 
+                    {% endfor %}
                 </td>
                 <td>
                     <a href="{% url 'news:post_update' p.id %}">

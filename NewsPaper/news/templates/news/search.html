@@ -8,13 +8,13 @@ News
 {% block content %}
     <h1>Поиск новостей</h1>
     <!-- <p><em>(общее кол-во новостей: {{posts|length}})</em></p> -->
-    <div class="btn-group">
+    <!-- <div class="btn-group">
         <a href="{% url 'news:posts' %}" class="btn btn-primary">Все новости</a>
         <a href="{% url 'news:post_search' %}" class="btn btn-primary active">Поиск</a>
         <a href="{% url 'news:post_create' %}" class="btn btn-primary">Создать новость</a>
     </div>
     <br>
-    <br>
+    <br> -->
     {% if posts %}    
         <!-- Перед таблицей добавим форму для поиска -->
         <form method="GET">

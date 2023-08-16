@@ -26,7 +26,13 @@ class Author(models.Model):
 
 class Category(models.Model):
     name = models.CharField(max_length=64, unique=True)
-
+    subscribers = models.ManyToManyField(User, blank=True)
+    # def subscribe(self):
+    #     pass
+    def get_category(self):
+        return self.name
+    def __str__(self):
+        return f'{self.name}'
 
 class Post(models.Model):
     author = models.ForeignKey(Author, on_delete=models.CASCADE)
@@ -57,7 +63,7 @@ class Post(models.Model):
         return self.text[0:123] + '...'
     
     def __str__(self):
-       return f'Новость #{self.pk} - {self.title}'
+       return f'Публикация #{self.pk} - {self.title}'
     
     def get_absolute_url(self): # добавим абсолютный путь, чтобы после создания нас перебрасывало на страницу с новостью
        return f'/news/{self.id}'

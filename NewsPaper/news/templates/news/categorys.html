@@ -1,0 +1,53 @@
+{% extends 'layout/default.html' %}
+
+{% block title %}
+Категории новостей
+{% endblock title %}
+
+{% block content %}
+<h1>Список категорий</h1>
+
+{% if categorys %}
+
+<table  class="table table-hover">
+  <tr>
+    <th scope="col">
+        Категория
+    </th>
+    <th scope="col">
+        Подписчики
+    </th>
+    <th scope="col">
+        Действия
+    </th>
+  </tr>
+  {% for c in categorys %}
+  <tr>
+    <td>
+        <a href="{% url 'news:category' c.id %}">
+        {{c}}
+        </a>        
+    </td>
+    <td>
+        {% for u in c.subscribers.all %}
+        {{u}}
+        {% endfor %}
+    </td>
+    <td>
+        {% if user in c.subscribers.all %}
+        <a href="{% url 'news:unsubscribe' c.id %}" class="btn btn-primary">
+            Отписаться
+        </a>
+        {%else%}
+        <a href="{% url 'news:subscribe' c.id %}" class="btn btn-primary">
+            Подписаться
+        </a>
+        {%endif%}
+    </td>   
+  </tr>
+  {% endfor %}
+</table>
+
+{%endif%}
+
+{% endblock content %}

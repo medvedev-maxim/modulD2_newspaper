@@ -4,6 +4,6 @@ from .views import upgrade_me
 
 app_name = 'accounts'
 urlpatterns = [
-    path('', IndexView.as_view()),
+    path('', IndexView.as_view(), name = 'index'),
     path('upgrade/', upgrade_me, name = 'upgrade')
 ]

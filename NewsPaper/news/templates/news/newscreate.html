@@ -5,14 +5,9 @@ News create
 {% endblock title %}
 
 {% block content %}
+
 <h1>Создайте новость</h1>
-<div class="btn-group">
-  <a href="{% url 'news:posts' %}" class="btn btn-primary">Все новости</a>
-  <a href="{% url 'news:post_search' %}" class="btn btn-primary">Поиск</a>
-  <a href="{% url 'news:post_create' %}" class="btn btn-primary active">Создать новость</a>
-</div>
-<br>
-<br>
+
 <form method="POST">
  {% csrf_token %}
  {{ form }}
