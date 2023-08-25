@@ -1,0 +1,16 @@
+2023-08-25 17:12:53,032 ERROR Internal Server Error: /news/subscribe/3/ D:\project\SF\Django_News_Portal\venv\Lib\site-packages\django\utils\log.py (<class 'NameError'>, NameError("name 'logger' is not defined"), <traceback object at 0x000001CADB577540>)
+Traceback (most recent call last):
+  File "D:\project\SF\Django_News_Portal\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\SF\Django_News_Portal\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\SF\Django_News_Portal\venv\Lib\site-packages\django\contrib\auth\decorators.py", line 23, in _wrapper_view
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\project\SF\Django_News_Portal\NewsPaper\news\views.py", line 108, in subscribe_category
+    logger.error('Œÿ»¡ ¿!!!!')
+    ^^^^^^
+NameError: name 'logger' is not defined
+2023-08-25 17:12:53,039 ERROR "GET /news/subscribe/3/ HTTP/1.1" 500 79375 D:\project\SF\Django_News_Portal\venv\Lib\site-packages\django\core\servers\basehttp.py None

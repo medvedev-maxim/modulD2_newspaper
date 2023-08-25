@@ -9,6 +9,10 @@ from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.core.mail import send_mail
+from django.core.cache import cache
+# import logging 
+
+# logger = logging.getLogger(__name__)
 
 class PostsList(ListView):
     model = Post
@@ -37,6 +41,16 @@ class PostDetail(DetailView):
     model = Post
     template_name='news/newsdetail.html'
     context_object_name='post'
+
+    def get_object(self, *args, **kwargs): # переопределяем метод получения объекта
+        obj = cache.get(f'post-{self.kwargs["pk"]}', None) # кэш очень похож на словарь, и метод get действует также. Он забирает значение по ключу, если его нет, то забирает None.
+ 
+        # если объекта нет в кэше, то получаем его и записываем в кэш
+        if not obj:
+            obj = super().get_object(queryset=self.queryset)
+            cache.set(f'post-{self.kwargs["pk"]}', obj)
+        
+        return obj
 
 # дженерик для создания объекта. Надо указать только имя шаблона и класс формы, который мы написали в прошлом юните. Остальное он сделает за вас
 class PostCreateView(PermissionRequiredMixin, CreateView):
@@ -93,6 +107,8 @@ def subscribe_category(request, pk):
 
     if not category.subscribers.filter(id=user.id).exists():
         category.subscribers.add(user)
+
+    # logger.error('TEXT ERROR!') # тестирование ошибок в лог
     
     return redirect('news:categorys')
     # return redirect(request.META.get('HTTP_REFERER')) # возврат к прошлой странице
@@ -101,6 +117,8 @@ def subscribe_category(request, pk):
 def unsubscribe_category(request, pk):
     user = request.user
     category = Category.objects.get(id=pk)
+
+    # logger.critical('TEXT CRITICAL ERROR!!!') # тестирование ошибок в лог
 
     if category.subscribers.filter(id=user.id).exists():
         category.subscribers.remove(user)
